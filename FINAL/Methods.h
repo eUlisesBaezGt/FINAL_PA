@@ -10,6 +10,7 @@ inline void add_team(vector<Team>& teams)
 
 inline void edit_team(vector<Team>& teams)
 {
+	if (teams.empty())cout << "No teams found!" << endl;
 	string name;
 	bool found = false;
 	for (auto& team : teams) cout << team.getName() << endl;
@@ -32,6 +33,7 @@ inline void edit_team(vector<Team>& teams)
 
 inline void delete_team(vector<Team>& teams)
 {
+	if (teams.empty())cout << "No teams found!" << endl;
 	string name;
 	bool found = false;
 	for (auto& team : teams) cout << team.getName() << endl;
@@ -54,10 +56,7 @@ inline void delete_team(vector<Team>& teams)
 
 inline void show_all_teams(vector<Team> teams)
 {
-	if(teams.empty())
-	{
-		cout << "No teams found!" << endl;
-	}
+	if (teams.empty())cout << "No teams found!" << endl;
 	for (auto& team : teams)
 	{
 		cout << team.getName() << endl;
@@ -70,6 +69,7 @@ inline void show_all_teams(vector<Team> teams)
 
 inline void show_team_by_name(vector<Team> teams)
 {
+	if (teams.empty())cout << "No teams found!" << endl;
 	string name;
 	bool found = false;
 	for (auto& team : teams) cout << team.getName() << endl;
@@ -96,6 +96,7 @@ inline void show_team_by_name(vector<Team> teams)
 
 inline void show_teams_by_country(vector<Team> teams)
 {
+	if (teams.empty())cout << "No teams found!" << endl;
 	string country;
 	bool found = false;
 	for (auto& team : teams) cout << team.getCountry() << endl;
