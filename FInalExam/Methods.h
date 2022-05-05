@@ -331,7 +331,6 @@ inline void sell_player(vector<Team>& teams, vector<Player>& players)
 	}
 }
 
-
 inline void buy_player(vector<Team>& teams, vector<Player>& players)
 {
 	cout << endl << endl;
@@ -392,7 +391,7 @@ inline void buy_player(vector<Team>& teams, vector<Player>& players)
 	}
 }
 
-inline void show_all_players(vector<Player> players)
+inline void show_all_players(const vector<Player> players)
 {
 	cout << endl << endl;
 	cout << " ---- SHOW ALL PLAYERS ---- " << endl;

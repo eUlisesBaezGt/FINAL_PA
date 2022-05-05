@@ -17,10 +17,10 @@ Team::~Team()
 
 Team::Team(string name_, int year_, string country_, string stadium_, int championships_, float balance_)
 {
-	this->_name = name_;
+	this->_name = move(name_);
 	this->_year = year_;
-	this->_country = country_;
-	this->_stadium = stadium_;
+	this->_country = move(country_);
+	this->_stadium = move(stadium_);
 	this->_championships = championships_;
 	this->_balance = balance_;
 }

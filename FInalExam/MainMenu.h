@@ -3,7 +3,7 @@
 #include "Files.h"
 #include "Methods.h"
 
-inline void main_menu(vector<Team>& teams, vector<Player> players)
+inline void main_menu(vector<Team>& teams, vector<Player>& players)
 {
 	int opt = 0;
 	do
