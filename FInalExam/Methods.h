@@ -88,7 +88,7 @@ inline void edit_team(vector<Team>& teams)
 	}
 }
 
-inline void delete_team(vector<Team>& teams)
+inline void delete_team(vector<Team>& teams, vector<Player>& players)
 {
 	cout << endl << endl;
 	cout << " ---- DELETE TEAM ---- " << endl;
@@ -100,13 +100,17 @@ inline void delete_team(vector<Team>& teams)
 		bool found = false;
 		for (auto& team : teams) cout << team.getName() << endl;
 		cout << "Enter team name to delete: ";
-		cin >> name;
-		cin.ignore();
+		getline(cin, name);
 		for (int i = 0; i < teams.size(); i++)
 		{
 			if (name == teams[i].getName())
 			{
 				found = true;
+				for (auto& player : players)
+				{
+					if (player.team == name) player.team = "";
+				}
+
 				teams.erase(teams.begin() + i);
 				cout << "Team deleted successfully!" << endl;
 			}
@@ -139,7 +143,7 @@ inline void show_all_teams(vector<Team> teams)
 	}
 }
 
-inline void show_team_by_name(vector<Team> teams)
+inline void show_team_by_name(vector<Team> teams, vector<Player>& players)
 {
 	cout << endl << endl;
 	cout << " ---- SHOW TEAM BY NAME ---- " << endl;
@@ -151,8 +155,7 @@ inline void show_team_by_name(vector<Team> teams)
 		bool found = false;
 		for (auto& team : teams) cout << team.getName() << endl;
 		cout << "Enter team name: ";
-		cin >> name;
-		cin.ignore();
+		getline(cin, name);
 		for (auto& team : teams)
 		{
 			if (name == team.getName())
@@ -166,11 +169,16 @@ inline void show_team_by_name(vector<Team> teams)
 				cout << team.getStadium() << "\t";
 				cout << team.getChampionships() << "\t\t";
 				cout << team.getBalance() << endl;
+				cout << "Players:" << endl;
+				for (auto& player : players)
+				{
+					if (player.team == name) cout << player.name << "\t";
+				}
 			}
-		}
-		if (!found)
-		{
-			cout << "Team not found!" << endl;
+			if (!found)
+			{
+				cout << "Team not found!" << endl;
+			}
 		}
 	}
 }
@@ -191,8 +199,7 @@ inline void show_teams_by_country(vector<Team> teams)
 		}
 
 		cout << "Enter team country: ";
-		cin >> country;
-		cin.ignore();
+		getline(cin, country);
 		for (auto& team : teams)
 		{
 			if (country == team.getCountry())
@@ -217,46 +224,41 @@ inline void show_teams_by_country(vector<Team> teams)
 
 inline void add_player(vector<Team>& teams, vector<Player>& players)
 {
+	cout << endl << endl;
 	cout << " ---- ADD PLAYER ---- " << endl;
-	cout << "NO FREE AGENTS ALLOWED" << endl;
-	if (teams.empty())
+	Player temp;
+	bool found = false;
+	cout << "Name: ";
+	string name;
+	getline(cin, name);
+	cout << "Price: ";
+	float price = 0.0f;
+	cin >> price;
+	cin.ignore();
+	cout << "Free agent (y/n): ";
+	string r, teamn;
+	getline(cin, r);
+	if (r == "y" || r == "Y")
 	{
-		cout << "No teams found!" << endl;
-		cout << "Consider creating teams first!" << endl;
+		teamn = "";
+		players.emplace_back(name, price, teamn);
+		cout << "Player created successfully!" << endl;
 	}
-
-	else
+	else if (r == "n" || r == "N")
 	{
-		bool created = false;
-		cout << endl << endl;
-		Player temp;
-		cout << "Name: ";
-		string name;
-		getline(cin, name);
-		cout << "Price: ";
-		float price = 0.0f;
-		cin >> price;
-		cin.ignore();
 		cout << "Team: ";
-		string teamn;
 		getline(cin, teamn);
-
 		for (auto& team : teams)
 		{
 			if (team.getName() == teamn)
 			{
+				found = true;
 				players.emplace_back(name, price, teamn);
-				created = true;
 				cout << "Player created successfully!" << endl;
 				break;
 			}
 		}
-		if (!created)
-		{
-			cout << "Team not found!" << endl;
-			cout << "Player not created!" << endl;
-			cout << "Player try again creating a player with a valid team!" << endl;
-		}
+		if (!found) cout << "Team not found!" << endl;
 	}
 }
 
@@ -313,12 +315,15 @@ inline void sell_player(vector<Team>& teams, vector<Player>& players)
 								player.price = new_price;
 							}
 							team.setBalance(team.getBalance() - player.price);
-							cout << "Successful operation" << endl;
-							for (auto& team2 : teams)
+							if (!old_team.empty())
 							{
-								if (team2.getName() == old_team)
-									team2.setBalance(team2.getBalance() + player.price);
+								for (auto& team2 : teams)
+								{
+									if (team2.getName() == old_team)
+										team2.setBalance(team2.getBalance() + player.price);
+								}
 							}
+							cout << "Successful operation" << endl;
 							break;
 						}
 					}
@@ -372,12 +377,15 @@ inline void buy_player(vector<Team>& teams, vector<Player>& players)
 						{
 							player.team = new_team;
 							team.setBalance(team.getBalance() - player.price);
-							cout << "Successful operation" << endl;
-							for (auto& team2 : teams)
+							if (!old_team.empty())
 							{
-								if (team2.getName() == old_team)
-									team2.setBalance(team2.getBalance() + player.price);
+								for (auto& team2 : teams)
+								{
+									if (team2.getName() == old_team)
+										team2.setBalance(team2.getBalance() + player.price);
+								}
 							}
+							cout << "Successful operation" << endl;
 							break;
 						}
 					}

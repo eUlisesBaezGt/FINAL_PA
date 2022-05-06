@@ -49,7 +49,7 @@ inline void main_menu(vector<Team>& teams, vector<Player>& players)
 			}
 		case 3:
 			{
-				delete_team(teams);
+				delete_team(teams, players);
 				write_file(teams, players);
 				break;
 			}
@@ -60,7 +60,7 @@ inline void main_menu(vector<Team>& teams, vector<Player>& players)
 			}
 		case 5:
 			{
-				show_team_by_name(teams);
+				show_team_by_name(teams, players);
 				break;
 			}
 		case 6:
